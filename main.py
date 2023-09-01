@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body, Depends
+from fastapi import FastAPI, Depends
 from database import Base, engine, SessionLocal
 from sqlalchemy.orm import Session
 
@@ -43,8 +43,8 @@ def getItem(id: int, session: Session = Depends(get_session)):
 
 # options 1 for post
 @app.post("/")
-def addItem(item: schemas.Item, session: Session = Depends(get_session)):
-    item = models.Item(task=item.task)
+def addItem(item:schemas.Item, session: Session = Depends(get_session)):
+    item = models.Item(name=item.name,age=item.age,phone=item.phone)
     session.add(item)
     session.commit()
     session.refresh(item)
@@ -55,7 +55,9 @@ def addItem(item: schemas.Item, session: Session = Depends(get_session)):
 @app.put("/{id}")
 def updateItem(id: int, item: schemas.Item, session: Session = Depends(get_session)):
     itemObject = session.query(models.Item).get(id)
-    itemObject.task = item.task
+    itemObject.name = item.name
+    itemObject.age = item.age
+    itemObject.phone = item.phone
     session.commit()
     return itemObject
 

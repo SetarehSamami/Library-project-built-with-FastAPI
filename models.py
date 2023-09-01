@@ -7,4 +7,6 @@ class Item(Base):
     __tablename__ = "items"
     
     id = Column(Integer, primary_key=True)
-    task = Column(String(256))
+    name = Column(String(256))
+    age =Column(Integer)
+    phone=Column(Integer)
