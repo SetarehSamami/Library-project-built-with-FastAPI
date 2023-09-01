@@ -27,7 +27,7 @@ app = FastAPI()
 
 
 
-
+# get all item by using database and tables
 @app.get("/")
 def getItems(session: Session = Depends(get_session)):
     items = session.query(models.Item).all()
@@ -41,7 +41,7 @@ def getItem(id: int, session: Session = Depends(get_session)):
     return item
 
 
-# options 1 for post
+# post request for creating data in database
 @app.post("/")
 def addItem(item:schemas.Item, session: Session = Depends(get_session)):
     item = models.Item(name=item.name,age=item.age,phone=item.phone)
