@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Item(BaseModel):
+class User(BaseModel):
     name: str
     age: int
     phone: str
@@ -10,5 +10,5 @@ class Item(BaseModel):
 class book(BaseModel):
     bookname: str
     author: str
-    item_id: int
+    user_id: int
     

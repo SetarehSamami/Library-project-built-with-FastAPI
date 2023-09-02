@@ -4,15 +4,15 @@ from database import Base
 
 
 
-class Item(Base):
-    __tablename__ = "items"
+class User(Base):
+    __tablename__ = "users"
     
-    item_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, primary_key=True)
     name = Column(String(256))
     age =Column(Integer)
     phone=Column(String)
 
-    books=relationship("book", back_populates="items" )
+    books=relationship("book", back_populates="users" )
 
 
 class book(Base):
@@ -21,8 +21,8 @@ class book(Base):
      book_id = Column(Integer, primary_key=True)
      bookname = Column(String)
      author = Column(String)
-     item_id= Column(Integer, ForeignKey("items.item_id", ondelete="cascade"))
+     user_id= Column(Integer, ForeignKey("users.user_id"))
 
-     items=relationship("Item", back_populates="books")
+     users=relationship("User", back_populates="books")
 
 
