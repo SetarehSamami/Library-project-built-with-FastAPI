@@ -26,6 +26,7 @@ app = FastAPI()
 # http://127.0.0.1:8000/docs#/ this help you to run the swagger UI as testing
 
 
+#item endpoints
 
 # get all item by using database and tables
 @app.get("/")
@@ -70,3 +71,48 @@ def deleteItem(id: int, session: Session = Depends(get_session)):
     session.close()
     return "Item was deleted"
 
+
+#book endpoints
+
+# get all book by using database and tables
+@app.get("/book/")
+def getBooks(session: Session = Depends(get_session)):
+    books = session.query(models.book).all()
+    return books
+
+
+# get one book by using database and tables
+@app.get("/book/{id}")
+def getBook(id: int, session: Session = Depends(get_session)):
+    book = session.query(models.book).get(id)
+    return book
+
+
+# post request for creating  Book data in database
+@app.post("/book/")
+def addBook(Book:schemas.book, session: Session = Depends(get_session)):
+    Books = models.book(bookname=Book.bookname,author=Book.author,item_id=Book.item_id)
+    session.add(Books)
+    session.commit()
+    session.refresh(Books)
+    return Books
+
+
+# put request by getting Book data in table
+@app.put("/book/{id}")
+def updateBook(id: int, Book: schemas.book, session: Session = Depends(get_session)):
+    BookObject = session.query(models.book).get(id)
+    BookObject.bookname = Book.bookname
+    BookObject.author = Book.author
+    BookObject.item_id = Book.item_id
+    session.commit()
+    return BookObject
+
+# delete request
+@app.delete("/book/{id}")
+def deleteBook(id: int, session: Session = Depends(get_session)):
+    BookObject = session.query(models.book).get(id)
+    session.delete(BookObject)
+    session.commit()
+    session.close()
+    return "book was deleted"
